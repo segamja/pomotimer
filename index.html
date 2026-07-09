@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#f2f2f7">
+  <title>포모도로 타이머</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-header__title">포모도로 타이머</h1>
+      <blockquote class="app-header__quote" id="daily-quote" cite="">
+        <p class="app-header__quote-text" id="quote-text"></p>
+        <footer class="app-header__quote-author" id="quote-author"></footer>
+      </blockquote>
+    </header>
+
+    <main class="app-main">
+      <!-- Timer Section -->
+      <section class="timer-section mode-focus" id="timer-section" aria-labelledby="timer-heading">
+        <h2 id="timer-heading" class="section-label">타이머</h2>
+
+        <div class="timer-ring-wrap" id="timer-panel">
+          <svg class="timer-ring" viewBox="0 0 240 240" aria-hidden="true">
+            <circle class="timer-ring__track" cx="120" cy="120" r="100"/>
+            <circle class="timer-ring__progress" id="timer-ring-progress" cx="120" cy="120" r="100"/>
+          </svg>
+          <div class="timer-ring__center">
+            <span class="timer-mode" id="timer-mode-label" aria-live="polite">집중</span>
+            <div class="timer-display" id="timer-display" aria-live="polite" aria-atomic="true">25:00</div>
+          </div>
+        </div>
+
+        <div class="segment-control" role="group" aria-label="뽀모도로 프리셋">
+          <button type="button" class="segment-control__btn segment-control__btn--active" data-preset="focus" data-minutes="25">25분</button>
+          <button type="button" class="segment-control__btn" data-preset="short-break" data-minutes="5">5분</button>
+          <button type="button" class="segment-control__btn" data-preset="long-break" data-minutes="15">15분</button>
+        </div>
+
+        <div class="timer-actions">
+          <button type="button" class="timer-btn timer-btn--primary" id="timer-start-btn">시작</button>
+          <button type="button" class="timer-btn timer-btn--secondary" id="timer-reset-btn">리셋</button>
+        </div>
+
+        <details class="timer-custom-details" id="timer-custom-details">
+          <summary class="timer-custom-details__summary">직접 설정</summary>
+          <form class="timer-custom" id="timer-custom-form" aria-label="직접 시간 설정">
+            <input type="number" id="timer-minutes" class="timer-custom__input" min="0" max="99" value="25" aria-label="분">
+            <span class="timer-custom__sep">:</span>
+            <input type="number" id="timer-seconds" class="timer-custom__input" min="0" max="59" value="0" aria-label="초">
+            <button type="submit" class="timer-custom__apply" id="timer-apply-btn">적용</button>
+          </form>
+        </details>
+      </section>
+
+      <!-- Todo Section -->
+      <section class="todo-section" aria-labelledby="todo-heading">
+        <header class="todo-section__header">
+          <h2 id="todo-heading" class="section-label">할일</h2>
+          <span class="badge" id="todo-counter" aria-live="polite">0개 남음</span>
+        </header>
+
+        <div class="filter-scroll" role="tablist" aria-label="할일 필터">
+          <button type="button" class="filter-pill filter-pill--active" data-filter="all" role="tab" aria-selected="true">전체</button>
+          <button type="button" class="filter-pill" data-filter="active" role="tab" aria-selected="false">진행 중</button>
+          <button type="button" class="filter-pill" data-filter="completed" role="tab" aria-selected="false">완료</button>
+        </div>
+
+        <div class="todo-group">
+          <ul class="todo-list" id="todo-list" aria-label="할일 목록"></ul>
+          <div class="todo-empty" id="todo-empty">
+            <p class="todo-empty__text">할 일이 없습니다</p>
+            <p class="todo-empty__hint">아래에서 할 일을 추가해 보세요</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <form class="todo-input-bar" id="todo-form" aria-label="할일 추가">
+      <div class="todo-input-bar__field">
+        <span class="todo-input-bar__plus" aria-hidden="true">+</span>
+        <input
+          type="text"
+          id="todo-input"
+          class="todo-input-bar__input"
+          placeholder="할 일 추가..."
+          maxlength="200"
+          aria-label="할 일 입력"
+          autocomplete="off"
+        >
+      </div>
+      <button type="submit" class="todo-input-bar__submit" id="todo-add-btn" aria-label="할 일 추가">
+        <svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
+          <path d="M10 4v12M4 10h12" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </form>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
