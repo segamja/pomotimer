@@ -82,6 +82,7 @@ button:disabled {
   flex-shrink: 0;
   background: var(--bg-app);
   border-bottom: 1px solid var(--separator);
+  text-align: center;
 }
 
 .app-header__title {
@@ -98,6 +99,7 @@ button:disabled {
   border-radius: var(--radius-card);
   border-left: 3px solid var(--accent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  text-align: center;
 }
 
 .app-header__quote-text {
@@ -127,6 +129,7 @@ button:disabled {
   padding: 16px 16px 8px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 16px;
   min-height: 0;
 }
@@ -138,6 +141,8 @@ button:disabled {
   text-transform: uppercase;
   letter-spacing: 0.06em;
   margin-bottom: 12px;
+  text-align: center;
+  width: 100%;
 }
 
 .badge {
@@ -301,6 +306,7 @@ button:disabled {
   color: var(--accent);
   cursor: pointer;
   list-style: none;
+  text-align: center;
 }
 
 .timer-custom-details__summary::-webkit-details-marker {
@@ -310,6 +316,7 @@ button:disabled {
 .timer-custom {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   padding: 0 14px 12px;
   border-top: 1px solid var(--separator);
@@ -334,7 +341,6 @@ button:disabled {
 }
 
 .timer-custom__apply {
-  margin-left: auto;
   padding: 8px 16px;
   background: var(--accent);
   color: #fff;
@@ -347,14 +353,16 @@ button:disabled {
 .todo-section {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 }
 
 .todo-section__header {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
   gap: 8px;
+  width: 100%;
 }
 
 .todo-section__header .section-label {
@@ -371,6 +379,8 @@ button:disabled {
   gap: 8px;
   overflow-x: auto;
   scrollbar-width: none;
+  justify-content: center;
+  width: 100%;
 }
 
 .filter-scroll::-webkit-scrollbar {
@@ -392,6 +402,11 @@ button:disabled {
   color: #fff;
   background: var(--accent);
   border-color: var(--accent);
+}
+
+.todo-group {
+  width: 100%;
+  min-height: 80px;
 }
 
 .todo-list {

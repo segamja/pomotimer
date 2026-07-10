@@ -317,7 +317,7 @@ const Timer = {
       this.els.section.classList.add('mode-long-break');
     }
 
-    document.title = `${this.formatTime(this.state.remaining)} — 포모도로 타이머`;
+    document.title = `${this.formatTime(this.state.remaining)} — Pomodoro Timer`;
   },
 
   requestNotificationPermission() {
@@ -331,7 +331,7 @@ const Timer = {
     const body = `${label} 시간이 끝났습니다!`;
 
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('포모도로 타이머', { body });
+      new Notification('Pomodoro Timer', { body });
     }
   },
 
