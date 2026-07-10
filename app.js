@@ -265,6 +265,7 @@ const Timer = {
 
     this.setInputsDisabled(false);
     this.updateStartButton(false);
+    this.render();
     this.saveSettings();
   },
 
@@ -338,6 +339,8 @@ const Timer = {
     } else if (this.state.mode === 'long-break') {
       this.els.section.classList.add('mode-long-break');
     }
+
+    this.els.section.classList.toggle('timer-running', this.state.running);
 
     document.title = `${this.formatTime(this.state.remaining)} — Pomodoro Timer`;
   },

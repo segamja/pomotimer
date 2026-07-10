@@ -219,6 +219,8 @@ button:disabled {
   width: min(200px, 52vw);
   height: min(200px, 52vw);
   flex-shrink: 0;
+  border-radius: 50%;
+  transition: background 0.35s ease, box-shadow 0.35s ease;
 }
 
 .timer-ring {
@@ -245,6 +247,34 @@ button:disabled {
 .mode-focus .timer-ring__progress { stroke: var(--timer-focus); }
 .mode-short-break .timer-ring__progress { stroke: var(--timer-break); }
 .mode-long-break .timer-ring__progress { stroke: var(--timer-long-break); }
+
+.timer-section.timer-running.mode-focus .timer-ring-wrap {
+  background: var(--timer-focus);
+  box-shadow: 0 8px 24px rgba(228, 67, 50, 0.28);
+}
+
+.timer-section.timer-running.mode-short-break .timer-ring-wrap {
+  background: var(--timer-break);
+  box-shadow: 0 8px 24px rgba(52, 199, 89, 0.28);
+}
+
+.timer-section.timer-running.mode-long-break .timer-ring-wrap {
+  background: var(--timer-long-break);
+  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.28);
+}
+
+.timer-section.timer-running .timer-ring__track {
+  stroke: rgba(255, 255, 255, 0.28);
+}
+
+.timer-section.timer-running .timer-ring__progress {
+  stroke: #ffffff;
+}
+
+.timer-section.timer-running .timer-mode,
+.timer-section.timer-running .timer-display {
+  color: #ffffff;
+}
 
 .timer-ring__center {
   position: absolute;
