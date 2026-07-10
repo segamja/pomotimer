@@ -6,6 +6,7 @@ const Storage = {
     TODOS: 'timer-todo:todos',
     FILTER: 'timer-todo:filter',
     TIMER: 'timer-todo:timer',
+    ALARM_SOUND: 'timer-todo:alarm-sound',
   },
 
   get(key, fallback) {
@@ -115,6 +116,103 @@ const AppShell = {
       const duration = Math.max(24, segment.offsetWidth / 45);
       track.style.setProperty('--quote-marquee-duration', `${duration}s`);
     });
+  },
+};
+
+/* ===== Alarm Sound ===== */
+const AlarmSound = {
+  ctx: null,
+  soundId: 'chime',
+
+  init() {
+    this.soundId = Storage.get(Storage.KEYS.ALARM_SOUND, 'chime');
+    this.els = {
+      select: document.getElementById('alarm-sound-select'),
+      previewBtn: document.getElementById('alarm-preview-btn'),
+    };
+
+    if (this.els.select) {
+      this.els.select.value = this.soundId;
+      this.els.select.addEventListener('change', () => {
+        this.soundId = this.els.select.value;
+        Storage.set(Storage.KEYS.ALARM_SOUND, this.soundId);
+      });
+    }
+
+    if (this.els.previewBtn) {
+      this.els.previewBtn.addEventListener('click', async () => {
+        await this.unlock();
+        this.playOnce(this.soundId);
+      });
+    }
+  },
+
+  async unlock() {
+    if (!this.ctx) {
+      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (this.ctx.state === 'suspended') {
+      await this.ctx.resume();
+    }
+  },
+
+  tone(freq, start, duration, type = 'sine', volume = 0.25) {
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = type;
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(volume, start);
+    gain.gain.exponentialRampToValueAtTime(0.001, start + duration);
+    osc.connect(gain);
+    gain.connect(this.ctx.destination);
+    osc.start(start);
+    osc.stop(start + duration + 0.05);
+  },
+
+  playOnce(soundId) {
+    if (soundId === 'off' || !this.ctx) return;
+
+    const t = this.ctx.currentTime;
+    switch (soundId) {
+      case 'beep':
+        this.tone(880, t, 0.45);
+        break;
+      case 'chime':
+        this.tone(659, t, 0.35);
+        this.tone(880, t + 0.18, 0.45);
+        break;
+      case 'bell':
+        this.tone(784, t, 0.9, 'triangle', 0.28);
+        this.tone(1047, t, 0.65, 'sine', 0.14);
+        break;
+      case 'digital':
+        [0, 0.22, 0.44].forEach((delay) => {
+          this.tone(988, t + delay, 0.12, 'square', 0.16);
+        });
+        break;
+      default:
+        this.tone(880, t, 0.45);
+    }
+  },
+
+  wait(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+  },
+
+  async playAlarm(soundId = this.soundId) {
+    if (soundId === 'off') return;
+
+    await this.unlock();
+
+    const repeats = soundId === 'digital' ? 3 : 2;
+    const gap = soundId === 'digital' ? 700 : 950;
+
+    for (let i = 0; i < repeats; i += 1) {
+      this.playOnce(soundId);
+      if (i < repeats - 1) {
+        await this.wait(gap);
+      }
+    }
   },
 };
 
@@ -276,6 +374,7 @@ const Timer = {
     this.state.running = true;
     this.state.startedAt = Date.now() - (this.state.total - this.state.remaining) * 1000;
 
+    AlarmSound.unlock();
     this.setInputsDisabled(true);
     this.updateStartButton(true);
     this.saveSettings();
@@ -325,7 +424,7 @@ const Timer = {
 
   onComplete() {
     this.pause();
-    this.playBeep();
+    AlarmSound.playAlarm();
     this.showNotification();
   },
 
@@ -384,23 +483,6 @@ const Timer = {
 
     if ('Notification' in window && Notification.permission === 'granted') {
       new Notification('Pomodoro Timer', { body });
-    }
-  },
-
-  playBeep() {
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.frequency.value = 880;
-      gain.gain.setValueAtTime(0.3, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.5);
-    } catch {
-      /* audio not available */
     }
   },
 };
@@ -592,6 +674,7 @@ const TodoList = {
 document.addEventListener('DOMContentLoaded', () => {
   Storage.initAutoSave();
   AppShell.init();
+  AlarmSound.init();
   Timer.init();
   TodoList.init();
 });

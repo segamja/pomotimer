@@ -10,7 +10,7 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Pomodoro Timer</title>
-  <link rel="stylesheet" href="styles.css?v=20260713">
+  <link rel="stylesheet" href="styles.css?v=20260714">
 </head>
 <body>
   <div class="app">
@@ -58,6 +58,23 @@
             <button type="submit" class="timer-custom__apply" id="timer-apply-btn">적용</button>
           </form>
         </details>
+
+        <details class="timer-alarm-details" id="timer-alarm-details">
+          <summary class="timer-alarm-details__summary">알람 설정</summary>
+          <div class="timer-alarm" id="timer-alarm-settings">
+            <label class="timer-alarm__label" for="alarm-sound-select">알람 소리</label>
+            <div class="timer-alarm__controls">
+              <select id="alarm-sound-select" class="timer-alarm__select" aria-label="알람 소리 선택">
+                <option value="beep">기본 비프</option>
+                <option value="chime">차임</option>
+                <option value="bell">종소리</option>
+                <option value="digital">디지털 알람</option>
+                <option value="off">무음</option>
+              </select>
+              <button type="button" class="timer-alarm__preview" id="alarm-preview-btn">미리듣기</button>
+            </div>
+          </div>
+        </details>
       </section>
 
       <section class="todo-section" aria-labelledby="todo-heading">
@@ -103,6 +120,6 @@
     </form>
   </div>
 
-  <script src="app.js?v=20260713"></script>
+  <script src="app.js?v=20260714"></script>
 </body>
 </html>
