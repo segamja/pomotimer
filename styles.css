@@ -40,6 +40,8 @@ body {
   line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   min-height: 100dvh;
+  display: flex;
+  justify-content: center;
 }
 
 button, input {
@@ -90,6 +92,7 @@ button:disabled {
   font-weight: 700;
   letter-spacing: -0.03em;
   line-height: 1.2;
+  text-align: center;
 }
 
 .app-header__quote {
@@ -97,7 +100,7 @@ button:disabled {
   padding: 12px 14px;
   background: var(--surface);
   border-radius: var(--radius-card);
-  border-left: 3px solid var(--accent);
+  border-top: 3px solid var(--accent);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   text-align: center;
 }
@@ -157,6 +160,7 @@ button:disabled {
 
 /* ===== Timer Section ===== */
 .timer-section {
+  width: 100%;
   background: var(--surface);
   border-radius: var(--radius-card);
   padding: 20px 16px;
@@ -351,6 +355,7 @@ button:disabled {
 
 /* ===== Todo Section ===== */
 .todo-section {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
