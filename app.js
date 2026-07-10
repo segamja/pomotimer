@@ -58,6 +58,33 @@ const QUOTES = [
 const AppShell = {
   init() {
     this.initQuoteMarquee();
+    this.initMobileFlexibleLayout();
+  },
+
+  initMobileFlexibleLayout() {
+    const inputBar = document.querySelector('.todo-input-bar');
+    const todoInput = document.getElementById('todo-input');
+    if (!inputBar || !window.visualViewport) return;
+
+    const syncInputBar = () => {
+      const viewport = window.visualViewport;
+      if (!viewport) return;
+
+      const keyboardOffset = Math.max(
+        0,
+        window.innerHeight - viewport.height - viewport.offsetTop
+      );
+      inputBar.style.transform = keyboardOffset
+        ? `translateY(-${keyboardOffset}px)`
+        : '';
+    };
+
+    window.visualViewport.addEventListener('resize', syncInputBar);
+    window.visualViewport.addEventListener('scroll', syncInputBar);
+    todoInput.addEventListener('focus', syncInputBar);
+    todoInput.addEventListener('blur', () => {
+      inputBar.style.transform = '';
+    });
   },
 
   formatQuote(quote) {
