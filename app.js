@@ -57,15 +57,37 @@ const QUOTES = [
 
 const AppShell = {
   init() {
-    this.showRandomQuote();
+    this.initQuoteMarquee();
   },
 
-  showRandomQuote() {
-    const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
-    document.getElementById('quote-text').textContent = `"${quote.text}"`;
-    const authorEl = document.getElementById('quote-author');
-    authorEl.textContent = quote.author ? `— ${quote.author}` : '';
-    document.getElementById('daily-quote').setAttribute('cite', quote.author || '');
+  formatQuote(quote) {
+    const author = quote.author ? ` — ${quote.author}` : '';
+    return `"${quote.text}"${author}`;
+  },
+
+  initQuoteMarquee() {
+    const track = document.getElementById('quote-track');
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (reducedMotion) {
+      const quote = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+      track.classList.add('app-header__quote-track--static');
+      track.innerHTML = `<span class="app-header__quote-item app-header__quote-item--static">${this.formatQuote(quote)}</span>`;
+      return;
+    }
+
+    const shuffled = [...QUOTES].sort(() => Math.random() - 0.5);
+    const line = shuffled.map((quote) => this.formatQuote(quote)).join('   ·   ');
+    track.innerHTML = `
+      <span class="app-header__quote-item">${line}</span>
+      <span class="app-header__quote-item" aria-hidden="true">${line}</span>`;
+
+    requestAnimationFrame(() => {
+      const segment = track.querySelector('.app-header__quote-item');
+      if (!segment) return;
+      const duration = Math.max(24, segment.offsetWidth / 45);
+      track.style.setProperty('--quote-marquee-duration', `${duration}s`);
+    });
   },
 };
 

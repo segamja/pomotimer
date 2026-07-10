@@ -10,16 +10,17 @@
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
   <title>Pomodoro Timer</title>
-  <link rel="stylesheet" href="styles.css?v=20260710">
+  <link rel="stylesheet" href="styles.css?v=20260711">
 </head>
 <body>
   <div class="app">
     <header class="app-header">
       <h1 class="app-header__title">Pomodoro Timer</h1>
-      <blockquote class="app-header__quote" id="daily-quote" cite="">
-        <p class="app-header__quote-text" id="quote-text"></p>
-        <footer class="app-header__quote-author" id="quote-author"></footer>
-      </blockquote>
+      <div class="app-header__quote" id="daily-quote">
+        <div class="app-header__quote-marquee" aria-label="시간과 관련된 명언">
+          <div class="app-header__quote-track" id="quote-track"></div>
+        </div>
+      </div>
     </header>
 
     <main class="app-main">
@@ -102,6 +103,6 @@
     </form>
   </div>
 
-  <script src="app.js?v=20260710"></script>
+  <script src="app.js?v=20260711"></script>
 </body>
 </html>
